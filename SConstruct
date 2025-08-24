@@ -80,31 +80,32 @@ elif env["platform"] == "linux":
 elif env["platform"] == "windows":
     libfmod = 'fmod%s_vc'% lfix
     libfmodstudio = 'fmodstudio%s_vc'% lfix
+
     fmod_info_table = {
         "x86_64" : "x64",
         "x86_32" : "x86",
     }
     arch_suffix_override = fmod_info_table[env["arch"]]
 
-    env.Append(CPPPATH=[env['fmod_lib_dir'] + 'windows/core/inc/', env['fmod_lib_dir'] + 'windows/studio/inc/'])
-    env.Append(LIBPATH=[env['fmod_lib_dir'] + 'windows/core/lib/' + arch_suffix_override, env['fmod_lib_dir'] + 'windows/studio/lib/' + arch_suffix_override])
+    # Adjust include paths to match the actual FMOD SDK structure
+    env.Append(CPPPATH=[
+        os.path.join(env['fmod_lib_dir'], 'core', 'inc'),
+        os.path.join(env['fmod_lib_dir'], 'studio', 'inc')
+    ])
+
+    # Adjust library paths
+    env.Append(LIBPATH=[
+        os.path.join(env['fmod_lib_dir'], 'core', 'lib', arch_suffix_override),
+        os.path.join(env['fmod_lib_dir'], 'studio', 'lib', arch_suffix_override)
+    ])
+
+    # Add libraries
     env.Append(LIBS=[libfmod, libfmodstudio])
 
     env.Append(LINKFLAGS=["/WX"])
     if debug:
         env.Append(CCFLAGS=["/FS", "/Zi"])
 
-elif env["platform"] == "ios":
-    libfmod = 'libfmod%s_iphoneos.a' % lfix
-    libfmodstudio = 'libfmodstudio%s_iphoneos.a' % lfix
-
-    env.Append(CPPPATH=[env['fmod_lib_dir'] + 'ios/core/inc/', env['fmod_lib_dir'] + 'ios/studio/inc/'])
-    env.Append(LIBPATH=[env['fmod_lib_dir'] + 'ios/core/lib/', env['fmod_lib_dir'] + 'ios/studio/lib/'])
-    env.Append(LIBS=[libfmod, libfmodstudio])
-
-    env.Append(LINKFLAGS=[
-        '-Wl,-undefined,dynamic_lookup', "-miphoneos-version-min=" + env["ios_min_version"]
-    ])
 
 elif env["platform"] == "android":
     libfmod = 'libfmod%s.so' % lfix
