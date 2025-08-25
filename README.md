@@ -62,3 +62,7 @@ work to GDNative.
 
 [fmodsingleton]: .README/fmodsingleton.png
 [usecustombuild]: .README/usecustombuild.png
+
+#### Note to self
+To compile the integration source run: 
+- `scons platform=windows arch=x86_64 target=editor fmod_lib_dir="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api"`

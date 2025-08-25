@@ -33,7 +33,7 @@ modules="org/godotengine/godot/FmodSingleton"
 [application]
 
 config/name="Fmod Demo"
-run/main_scene="res://low_level_2D/FmodScriptTest.tscn"
+run/main_scene="uid://dk02rm1jcir6t"
 config/features=PackedStringArray("4.4")
 config/icon="uid://cih2yjmtjoohg"
 
